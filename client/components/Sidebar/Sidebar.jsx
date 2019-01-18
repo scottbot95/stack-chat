@@ -1,6 +1,8 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Drawer from '@material-ui/core/Drawer';
+import withWidth from '@material-ui/core/withWidth';
 import ChannelListItem from './ChannelListItem';
 
 const Sidebar = ({ width, channels }) => {
@@ -17,7 +19,13 @@ const Sidebar = ({ width, channels }) => {
   );
 };
 
-export default Sidebar;
+const mapStateToProps = state => ({
+  channels: state.channels
+});
+
+export default connect(mapStateToProps)(withWidth()(Sidebar));
+
+Sidebar.displayName = 'Sidebar';
 
 Sidebar.propTypes = {
   /** Media breakpoint size */

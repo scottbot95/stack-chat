@@ -4,15 +4,15 @@ import { Provider } from 'react-redux';
 import { AppContainer } from 'react-hot-loader';
 import { HashRouter } from 'react-router-dom';
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core';
-import colors from '@material-ui/core/colors';
+import purple from '@material-ui/core/colors/purple';
 
 const App = require('./app').default;
-const store = require('./store');
+const store = require('./store').default;
 
 const theme = createMuiTheme({
   palette: {
     primary: {
-      main: colors.purple[500]
+      main: purple[500]
     }
   }
 });

@@ -6,11 +6,12 @@ import { Switch } from 'react-router-dom';
 import { LoginPage } from './components';
 
 const Routes = ({ isLoggedIn }) => {
-  if (!isLoggedIn) {
-    return <LoginPage />;
-  }
-
-  return <Switch />;
+  return (
+    <Switch>
+      {isLoggedIn && undefined}
+      <LoginPage />
+    </Switch>
+  );
 };
 
 const mapStateToProps = state => ({
@@ -20,5 +21,5 @@ const mapStateToProps = state => ({
 export default connect(mapStateToProps)(Routes);
 
 Routes.propTypes = {
-  isLoggedIn: PropTypes.bool
+  isLoggedIn: PropTypes.bool.isRequired
 };

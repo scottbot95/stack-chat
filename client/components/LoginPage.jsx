@@ -7,22 +7,10 @@ import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import Card from '@material-ui/core/Card';
 import Typography from '@material-ui/core/Typography';
-import { withStyles, createStyles } from '@material-ui/styles';
+import { withStyles } from '@material-ui/styles';
 
 import { login } from '../store/user/actions';
-
-const styles = createStyles({
-  container: {},
-  form: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center'
-  },
-  textField: {
-    flexGrow: 0,
-    width: 300
-  }
-});
+import { styles } from '../theme';
 
 class LoginPage extends React.Component {
   submit = values => {
@@ -30,41 +18,55 @@ class LoginPage extends React.Component {
   };
 
   render() {
-    console.log(this.props.classes);
     const error = this.props.error;
+
+    const classes = this.props.classes;
+
+    const formClass = [classes.form, classes.container].join(' ');
+
     return (
-      <Paper>
+      <Paper className={[classes.container, classes.center].join(' ')}>
         <Card>
-          <MaterialUIForm
-            onSubmit={this.submit}
-            className={this.props.classes.form}
-          >
-            <TextField
-              label="Username"
-              name="username"
-              type="text"
-              variant="outlined"
-              data-validators="isRequired"
-              className={this.props.classes.textField}
-            />
-            <TextField
-              label="Password"
-              name="password"
-              type="password"
-              variant="outlined"
-              data-validators="isRequired"
-              className={this.props.classes.textField}
-            />
-            <Typography
-              color="error"
-              align="center"
-              className={this.props.classes.textField}
-            >
-              {error}
-            </Typography>
-            <Button type="submit" variant="contained" color="primary">
-              Log In
-            </Button>
+          <MaterialUIForm onSubmit={this.submit} className={formClass}>
+            <fieldset className={formClass}>
+              <legend>
+                <Typography variant="h6">Login</Typography>
+              </legend>
+              <Typography variant="subtitle1">
+                Enter Login Credentials
+              </Typography>
+              <TextField
+                label="Username"
+                name="username"
+                type="text"
+                variant="outlined"
+                data-validators="isRequired"
+                className={classes.textField}
+              />
+              <TextField
+                label="Password"
+                name="password"
+                type="password"
+                variant="outlined"
+                data-validators="isRequired"
+                className={classes.textField}
+              />
+              <Typography
+                color="error"
+                align="center"
+                className={classes.textField}
+              >
+                {error}
+              </Typography>
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                className={classes.submit}
+              >
+                Log In
+              </Button>
+            </fieldset>
           </MaterialUIForm>
         </Card>
       </Paper>

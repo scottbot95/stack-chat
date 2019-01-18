@@ -3,23 +3,15 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { AppContainer } from 'react-hot-loader';
 import { Router } from 'react-router-dom';
-import { createMuiTheme, MuiThemeProvider } from '@material-ui/core';
-import purple from '@material-ui/core/colors/purple';
+import { MuiThemeProvider } from '@material-ui/core';
 
 import App from './App';
 import store from './store';
 import history from './history';
+import theme from './theme';
 
-const theme = createMuiTheme({
-  palette: {
-    primary: {
-      main: purple[500]
-    }
-  },
-  typography: {
-    useNextVariants: true
-  }
-});
+// start the socket nonsense
+import './socket';
 
 module.exports = () => {
   ReactDOM.render(

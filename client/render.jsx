@@ -2,12 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { AppContainer } from 'react-hot-loader';
-import { HashRouter } from 'react-router-dom';
+import { Router } from 'react-router-dom';
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core';
 import purple from '@material-ui/core/colors/purple';
 
-const App = require('./app').default;
-const store = require('./store').default;
+import App from './App';
+import store from './store';
+import history from './history';
 
 const theme = createMuiTheme({
   palette: {
@@ -24,11 +25,11 @@ module.exports = () => {
   ReactDOM.render(
     <AppContainer>
       <MuiThemeProvider theme={theme}>
-        <HashRouter>
+        <Router history={history}>
           <Provider store={store}>
             <App />
           </Provider>
-        </HashRouter>
+        </Router>
       </MuiThemeProvider>
     </AppContainer>,
     document.getElementById('App')

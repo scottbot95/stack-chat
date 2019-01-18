@@ -1,7 +1,6 @@
 const faker = require('faker');
 const random = require('random');
 const seedrandom = require('seedrandom');
-const pg = require('pg');
 
 const db = require('./server/db');
 const { User, Channel, Message, UserChannel } = require('./server/db/models');
@@ -25,7 +24,8 @@ function seedUsers() {
     usersP[i] = User.create({
       realName: faker.name.findName(),
       username: faker.internet.userName(),
-      password: faker.internet.password()
+      password: faker.internet.password(),
+      imageUrl: faker.image.avatar()
     });
   }
 

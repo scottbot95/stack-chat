@@ -1,9 +1,11 @@
 import io from 'socket.io-client';
 
+import pkg from '../../package.json';
+
 const url =
   process.env.NODE_ENV === 'development'
     ? 'http://localhost:8080'
-    : 'http://scotts-stack-chat.herokuapp.com';
+    : pkg.homepage;
 
 const socket = io(url);
 

@@ -14,6 +14,7 @@ import { styles } from '../theme';
 
 class LoginPage extends React.Component {
   submit = values => {
+    console.log(values);
     this.props.login(values.username, values.password);
   };
 
@@ -39,6 +40,7 @@ class LoginPage extends React.Component {
                 label="Username"
                 name="username"
                 type="text"
+                value=""
                 variant="outlined"
                 data-validators="isRequired"
                 className={classes.textField}
@@ -46,6 +48,7 @@ class LoginPage extends React.Component {
               <TextField
                 label="Password"
                 name="password"
+                value=""
                 type="password"
                 variant="outlined"
                 data-validators="isRequired"

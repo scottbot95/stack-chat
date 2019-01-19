@@ -31,7 +31,8 @@ export const styles = createStyles({
   },
   textField: {
     flexGrow: 0,
-    width: 300
+    width: 300,
+    marginTop: `${theme.spacing.unit}px!important`
   },
   submit: {
     marginTop: `${theme.spacing.unit}px!important`,

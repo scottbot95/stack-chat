@@ -13,6 +13,10 @@ import { login } from '../store/user/actions';
 import { styles } from '../theme';
 
 class LoginPage extends React.Component {
+  componentDidMount() {
+    document.title = 'Login';
+  }
+
   submit = values => {
     console.log(values);
     this.props.login(values.username, values.password);
@@ -85,12 +89,10 @@ const mapDispatchToProps = {
   login
 };
 
-export default withStyles(styles)(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(LoginPage)
-);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withStyles(styles)(LoginPage));
 
 LoginPage.propTypes = {
   /** error text to display, if any */

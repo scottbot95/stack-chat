@@ -1,6 +1,7 @@
 import axios from '../axios';
 
 import { GET_USER } from './constants';
+import defaultUser from './initialState';
 import history from '../../history';
 
 export const getUser = user => ({
@@ -21,5 +22,14 @@ export const login = (username, password) => async dispatch => {
     history.push('/home');
   } catch (dispatchOrHistoryErr) {
     console.error(dispatchOrHistoryErr);
+  }
+};
+
+export const me = () => async dispatch => {
+  try {
+    const res = await axios.get('/auth/me');
+    dispatch(getUser(res.data || defaultUser));
+  } catch (error) {
+    console.error(error);
   }
 };

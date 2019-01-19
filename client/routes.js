@@ -2,19 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Switch, Route, withRouter } from 'react-router-dom';
+
+import withLoader from './components/withLoader';
 import { LoginPage, ChatPage, HomePage, SignupPage } from './components';
 import { me } from './store/user/actions';
 
-const routes = [
-  { path: '/channel', component: ChatPage },
-  { path: '/', component: HomePage }
-];
-
 class Routes extends React.Component {
-  componentDidMount() {
-    this.props.loadInitialData();
-  }
-
   componentDidUpdate() {
     document.title = this.props.windowTitle;
   }
@@ -25,9 +18,8 @@ class Routes extends React.Component {
     if (isLoggedIn) {
       return (
         <Switch>
-          {routes.map(route => (
-            <Route key={`${route.path}`} {...route} />
-          ))}
+          <Route path="/channel" component={ChatPage} />
+          <Route path="/" component={HomePage} />
         </Switch>
       );
     }
@@ -53,7 +45,7 @@ export default withRouter(
   connect(
     mapStateToProps,
     mapDispatchToProps
-  )(Routes)
+  )(withLoader({ loader: props => props.loadInitialData() })(Routes))
 );
 
 Routes.propTypes = {

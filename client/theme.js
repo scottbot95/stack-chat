@@ -15,10 +15,16 @@ export const theme = createMuiTheme({
 
 export default theme;
 
+const drawerWidth = 200;
+
 export const styles = createStyles({
+  flex: {
+    display: 'flex'
+  },
   container: {
     display: 'flex',
     flexDirection: 'column',
+    width: '100%',
     height: '100%'
     // padding: theme.spacing.unit
   },
@@ -40,5 +46,12 @@ export const styles = createStyles({
   submit: {
     marginTop: `${theme.spacing.unit}px!important`,
     margin: 'auto!important'
+  },
+  drawer: {
+    width: drawerWidth,
+    flexShrink: 0
+  },
+  drawerPaper: {
+    width: drawerWidth
   }
 });

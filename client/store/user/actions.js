@@ -31,18 +31,20 @@ export const login = (username, password) => async dispatch => {
 
 export const signup = userData => async dispatch => {
   let res;
-  try {
-    res = await axios.post('/auth/signup', userData);
-  } catch (error) {
-    dispatch(getUser({ error }));
-  }
+  setTimeout(async () => {
+    try {
+      res = await axios.post('/auth/signup', userData);
+    } catch (error) {
+      dispatch(getUser({ error }));
+    }
 
-  try {
-    dispatch(getUser(res.data));
-    history.push('/home');
-  } catch (err) {
-    console.error(err);
-  }
+    try {
+      dispatch(getUser(res.data));
+      history.push('/home');
+    } catch (err) {
+      console.error(err);
+    }
+  }, 2000);
 };
 
 export const me = () => async dispatch => {

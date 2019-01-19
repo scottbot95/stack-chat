@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Switch, Route } from 'react-router-dom';
-import { LoginPage, ChatPage, HomePage } from './components';
+import { Switch, Route, withRouter } from 'react-router-dom';
+import { LoginPage, ChatPage, HomePage, SignupPage } from './components';
 import { me } from './store/user/actions';
 
 const routes = [
   { path: '/channel', component: ChatPage },
-  { path: '/', exact: true, component: HomePage }
+  { path: '/', component: HomePage }
 ];
 
 class Routes extends React.Component {
@@ -31,7 +31,12 @@ class Routes extends React.Component {
         </Switch>
       );
     }
-    return <LoginPage />;
+    return (
+      <Switch>
+        <Route exact path="/signup" component={SignupPage} />
+        <Route exact path="/" component={LoginPage} />
+      </Switch>
+    );
   }
 }
 
@@ -44,10 +49,12 @@ const mapDispatchToProps = {
   loadInitialData: me
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Routes);
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(Routes)
+);
 
 Routes.propTypes = {
   /** whether or not the user is logged in */

@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 import MaterialUIForm from 'react-material-ui-form';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
@@ -10,17 +9,19 @@ import Card from '@material-ui/core/Card';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/styles';
 
-import { login } from '../store/user/actions';
+import { signup } from '../store/user/actions';
 import { setTitle } from '../store/window/actions';
 import { styles } from '../theme';
 
-class LoginPage extends React.Component {
+class SignupPage extends React.Component {
   componentDidMount() {
-    this.props.setWindowTitle('Login');
+    this.props.setWindowTitle('Account Creation');
   }
 
   submit = values => {
-    this.props.login(values.username, values.password);
+    if (values.password === values.password2) {
+      this.props.signup(values);
+    }
   };
 
   render() {
@@ -34,27 +35,42 @@ class LoginPage extends React.Component {
           <MaterialUIForm onSubmit={this.submit} className={formClass}>
             <fieldset className={formClass}>
               <legend>
-                <Typography variant="h6">Login</Typography>
+                <Typography variant="h6">Signup</Typography>
               </legend>
-              <Typography variant="subtitle1">
-                Enter Login Credentials
-              </Typography>
+              <Typography variant="subtitle1">Enter Account Details</Typography>
               <TextField
                 label="Username"
                 name="username"
                 type="text"
                 value=""
                 variant="outlined"
-                data-validators="isRequired"
+                data-validator="isRequired"
+                className={classes.textField}
+              />
+              <TextField
+                label="Real Name"
+                name="realName"
+                type="text"
+                value=""
+                variant="outlined"
                 className={classes.textField}
               />
               <TextField
                 label="Password"
                 name="password"
-                value=""
                 type="password"
+                value=""
                 variant="outlined"
-                data-validators="isRequired"
+                data-validator="isRequired"
+                className={classes.textField}
+              />
+              <TextField
+                label="Password (confirm)"
+                name="password2"
+                type="password"
+                value=""
+                variant="outlined"
+                data-validator="isRequired"
                 className={classes.textField}
               />
               <Typography
@@ -70,14 +86,9 @@ class LoginPage extends React.Component {
                 color="primary"
                 className={classes.submit}
               >
-                Log In
+                Sign Up
               </Button>
             </fieldset>
-            <Link to="/signup">
-              <Typography variant="caption" align="center">
-                Don't have an account? Click here to signup!
-              </Typography>
-            </Link>
           </MaterialUIForm>
         </Card>
       </Paper>
@@ -90,25 +101,25 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  login,
+  signup,
   setWindowTitle: setTitle
 };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withStyles(styles)(LoginPage));
+)(withStyles(styles)(SignupPage));
 
-LoginPage.propTypes = {
+SignupPage.propTypes = {
   /** error text to display, if any */
   error: PropTypes.string,
   /** Thunk to send login information */
-  login: PropTypes.func.isRequired,
+  signup: PropTypes.func.isRequired,
   setWindowTitle: PropTypes.func.isRequired,
   /** styles from material ui */
   classes: PropTypes.object.isRequired
 };
 
-LoginPage.defaultProps = {
+SignupPage.defaultProps = {
   error: undefined
 };

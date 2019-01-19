@@ -43,7 +43,10 @@ const createApp = () => {
         process.env.SESSION_SECRET || 'nobody will ever guess this, right?',
       store: sessionStore,
       resave: false,
-      saveUninitialized: false
+      saveUninitialized: false,
+      cookie: {
+        maxAge: 1000 * 60 * 60 * 24 * 7
+      }
     })
   );
   app.use(passport.initialize());

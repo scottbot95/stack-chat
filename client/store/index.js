@@ -4,9 +4,13 @@ import thunkMiddleware from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
 import userReducer from './user';
+import channelsReducer from './channels';
+import windowReducer from './window';
 
 const reducer = combineReducers({
-  user: userReducer
+  user: userReducer,
+  channels: channelsReducer,
+  window: windowReducer
 });
 
 const middleware = composeWithDevTools(

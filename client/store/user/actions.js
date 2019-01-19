@@ -1,12 +1,16 @@
 import axios from '../axios';
 
-import { GET_USER } from './constants';
+import { GET_USER, REMOVE_USER } from './constants';
 import defaultUser from './initialState';
 import history from '../../history';
 
 export const getUser = user => ({
   type: GET_USER,
   user
+});
+
+export const removeUser = () => ({
+  type: REMOVE_USER
 });
 
 export const login = (username, password) => async dispatch => {
@@ -31,5 +35,15 @@ export const me = () => async dispatch => {
     dispatch(getUser(res.data || defaultUser));
   } catch (error) {
     console.error(error);
+  }
+};
+
+export const logout = () => async dispatch => {
+  try {
+    await axios.post('/auth/logout');
+    dispatch(getUser(defaultUser));
+    history.push('/');
+  } catch (err) {
+    console.error(err);
   }
 };

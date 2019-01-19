@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-filename-extension */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -16,20 +15,29 @@ class Routes extends React.Component {
     this.props.loadInitialData();
   }
 
+  componentDidUpdate() {
+    document.title = this.props.windowTitle;
+  }
+
   render() {
     const { isLoggedIn } = this.props;
-    return (
-      <Switch>
-        {isLoggedIn &&
-          routes.map(route => <Route key={`${route.path}`} {...route} />)}
-        <LoginPage />
-      </Switch>
-    );
+
+    if (isLoggedIn) {
+      return (
+        <Switch>
+          {routes.map(route => (
+            <Route key={`${route.path}`} {...route} />
+          ))}
+        </Switch>
+      );
+    }
+    return <LoginPage />;
   }
 }
 
 const mapStateToProps = state => ({
-  isLoggedIn: !!state.user.id
+  isLoggedIn: !!state.user.id,
+  windowTitle: state.window.title
 });
 
 const mapDispatchToProps = {
@@ -45,5 +53,7 @@ Routes.propTypes = {
   /** whether or not the user is logged in */
   isLoggedIn: PropTypes.bool.isRequired,
   /** Fetch user data from server is logged in */
-  loadInitialData: PropTypes.func.isRequired
+  loadInitialData: PropTypes.func.isRequired,
+  /** Title for the window */
+  windowTitle: PropTypes.string.isRequired
 };

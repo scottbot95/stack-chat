@@ -3,14 +3,16 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Drawer from '@material-ui/core/Drawer';
 import withWidth from '@material-ui/core/withWidth';
-import ChannelListItem from './ChannelListItem';
 
-const Sidebar = ({ width, channels }) => {
+import ChannelListItem from './ChannelListItem';
+import { showSidebar } from '../../store/window/actions';
+
+const Sidebar = ({ width, channels, open, closeSidebar }) => {
   const drawerType = width === 'xs' ? 'temporary' : 'permanent';
 
   return (
     <div>
-      <Drawer variant={drawerType}>
+      <Drawer variant={drawerType} open={open} onClose={closeSidebar}>
         {channels.map(channel => (
           <ChannelListItem key={channel.id || channel.name} {...channel} />
         ))}
@@ -20,10 +22,18 @@ const Sidebar = ({ width, channels }) => {
 };
 
 const mapStateToProps = state => ({
-  channels: state.channels
+  channels: state.channels,
+  open: state.window.showSidebar
 });
 
-export default connect(mapStateToProps)(withWidth()(Sidebar));
+const mapDispatchToProps = dispatch => ({
+  closeSidebar: () => dispatch(showSidebar(false))
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withWidth()(Sidebar));
 
 Sidebar.displayName = 'Sidebar';
 
@@ -37,9 +47,12 @@ Sidebar.propTypes = {
       slug: PropTypes.string,
       unread: PropTypes.number
     })
-  )
+  ),
+  open: PropTypes.bool,
+  closeSidebar: PropTypes.func.isRequired
 };
 
 Sidebar.defaultProps = {
-  channels: []
+  channels: [],
+  open: false
 };

@@ -29,6 +29,9 @@ export const styles = createStyles({
   form: {
     alignItems: 'center'
   },
+  grow: {
+    flexGrow: 1
+  },
   textField: {
     flexGrow: 0,
     width: 300,

@@ -10,11 +10,12 @@ import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/styles';
 
 import { login } from '../store/user/actions';
+import { setTitle } from '../store/window/actions';
 import { styles } from '../theme';
 
 class LoginPage extends React.Component {
   componentDidMount() {
-    document.title = 'Login';
+    this.props.setWindowTitle('Login');
   }
 
   submit = values => {
@@ -86,7 +87,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  login
+  login,
+  setWindowTitle: setTitle
 };
 
 export default connect(
@@ -99,6 +101,7 @@ LoginPage.propTypes = {
   error: PropTypes.string,
   /** Thunk to send login information */
   login: PropTypes.func.isRequired,
+  setWindowTitle: PropTypes.func.isRequired,
   /** styles from material ui */
   classes: PropTypes.object.isRequired
 };

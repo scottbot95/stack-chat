@@ -3,13 +3,15 @@ import { createLogger } from 'redux-logger';
 import thunkMiddleware from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
-import userReducer from './user';
 import channelsReducer from './channels';
+import messagesReducer from './messages';
+import userReducer from './user';
 import windowReducer from './window';
 
 const reducer = combineReducers({
-  user: userReducer,
   channels: channelsReducer,
+  messages: messagesReducer,
+  user: userReducer,
   window: windowReducer
 });
 

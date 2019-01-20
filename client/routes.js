@@ -18,7 +18,7 @@ class Routes extends React.Component {
     if (isLoggedIn) {
       return (
         <Switch>
-          <Route path="/channel" component={ChatPage} />
+          <Route path="/channel/:channelId" component={ChatPage} />
           <Route path="/" component={HomePage} />
         </Switch>
       );

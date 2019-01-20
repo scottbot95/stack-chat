@@ -2,18 +2,7 @@
 const router = require('express').Router();
 module.exports = router;
 
-const Sequelize = require('sequelize');
-
 const { UserChannel, Channel, User } = require('../db/models');
-
-// ensure user is logged in
-router.use((req, res, next) => {
-  if (!req.user) {
-    res.sendStatus(401);
-  } else {
-    next();
-  }
-});
 
 router.get('/', async (req, res, next) => {
   let channels;

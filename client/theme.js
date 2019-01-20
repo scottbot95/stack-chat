@@ -28,6 +28,7 @@ export const styles = createStyles({
     height: '100%'
     // padding: theme.spacing.unit
   },
+  background: {},
   content: {
     padding: theme.spacing.unit * 2
   },
@@ -36,7 +37,9 @@ export const styles = createStyles({
     justifyContent: 'center'
   },
   form: {
-    alignItems: 'center'
+    alignItems: 'center',
+    padding: theme.spacing.unit * 2,
+    boxSizing: 'border-box'
   },
   grow: {
     flexGrow: 1

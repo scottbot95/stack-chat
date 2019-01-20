@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import MaterialUIForm from 'react-material-ui-form';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
@@ -11,7 +12,7 @@ import { withStyles } from '@material-ui/styles';
 
 import { signup } from '../store/user/actions';
 import { setTitle } from '../store/window/actions';
-import { styles } from '../theme';
+import { styles, theme } from '../theme';
 
 class SignupPage extends React.Component {
   componentDidMount() {
@@ -33,63 +34,64 @@ class SignupPage extends React.Component {
       <Paper className={[classes.container, classes.center].join(' ')}>
         <Card>
           <MaterialUIForm onSubmit={this.submit} className={formClass}>
-            <fieldset className={formClass}>
-              <legend>
-                <Typography variant="h6">Signup</Typography>
-              </legend>
-              <Typography variant="subtitle1">Enter Account Details</Typography>
-              <TextField
-                label="Username"
-                name="username"
-                type="text"
-                value=""
-                variant="outlined"
-                data-validator="isRequired"
-                className={classes.textField}
-              />
-              <TextField
-                label="Real Name"
-                name="realName"
-                type="text"
-                value=""
-                variant="outlined"
-                className={classes.textField}
-              />
-              <TextField
-                label="Password"
-                name="password"
-                type="password"
-                value=""
-                variant="outlined"
-                data-validator="isRequired"
-                className={classes.textField}
-              />
-              <TextField
-                label="Password (confirm)"
-                name="password2"
-                type="password"
-                value=""
-                variant="outlined"
-                data-validator="isRequired"
-                className={classes.textField}
-              />
-              <Typography
-                color="error"
-                align="center"
-                className={classes.textField}
-              >
-                {error}
-              </Typography>
-              <Button
-                type="submit"
-                variant="contained"
-                color="primary"
-                className={classes.submit}
-              >
-                Sign Up
-              </Button>
-            </fieldset>
+            <Typography variant="subtitle1">Enter Account Details</Typography>
+            <TextField
+              label="Username"
+              name="username"
+              type="text"
+              value=""
+              variant="outlined"
+              data-validator="isRequired"
+              className={classes.textField}
+            />
+            <TextField
+              label="Real Name"
+              name="realName"
+              type="text"
+              value=""
+              variant="outlined"
+              className={classes.textField}
+            />
+            <TextField
+              label="Password"
+              name="password"
+              type="password"
+              value=""
+              variant="outlined"
+              data-validator="isRequired"
+              className={classes.textField}
+            />
+            <TextField
+              label="Password (confirm)"
+              name="password2"
+              type="password"
+              value=""
+              variant="outlined"
+              data-validator="isRequired"
+              className={classes.textField}
+            />
+            <Typography
+              color="error"
+              align="center"
+              className={classes.textField}
+            >
+              {error}
+            </Typography>
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+            >
+              Sign Up
+            </Button>
           </MaterialUIForm>
+          <Typography align="center" variant="caption">
+            Already have an account?
+            <Link to="/" style={{ padding: theme.spacing.unit }}>
+              Click here to login
+            </Link>
+          </Typography>
         </Card>
       </Paper>
     );

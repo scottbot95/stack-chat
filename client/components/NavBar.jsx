@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { NavLink } from 'react-router-dom';
+import withWidth from '@material-ui/core/withWidth';
 import withStyles from '@material-ui/styles/withStyles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -8,7 +10,7 @@ import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import MenuIcon from '@material-ui/icons/Menu';
-import withWidth from '@material-ui/core/withWidth';
+import HomeIcon from '@material-ui/icons/Home';
 
 import { logout } from '../store/user/actions';
 import { toggleSidebar } from '../store/window/actions';
@@ -30,6 +32,11 @@ const NavBar = ({
             <MenuIcon />
           </IconButton>
         )}
+        <NavLink exact to="/" activeStyle={{ display: 'none' }}>
+          <IconButton aria-label="home">
+            <HomeIcon />
+          </IconButton>
+        </NavLink>
         <Typography variant="h6" className={classes.grow}>
           {title}
         </Typography>

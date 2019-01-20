@@ -65,26 +65,25 @@ function seedUserChannels(users, channels) {
   return Promise.all(promises);
 }
 
-function seedMessages(userChannels) {
+async function seedMessages(userChannels) {
   const normal = random.normal(AVG_NUM_MESSAGES, AVG_NUM_MESSAGES / 4);
+  const numMessages = Math.ceil(userChannels.length * Math.max(1, normal()));
 
-  const promises = [];
-
-  for (let i = 0; i < userChannels.length; i++) {
-    const userChannel = userChannels[i];
-    const numMessages = normal();
-    for (let j = 0; j < numMessages; j++) {
-      promises.push(
-        Message.create({
-          text: faker.lorem.sentence(),
-          authorId: userChannel.userId,
-          channelId: userChannel.channelId
-        })
-      );
-    }
+  const messages = new Array(numMessages);
+  for (let i = 0; i < messages.length; i++) {
+    if (i > 0 && i % 100 === 0) console.log(`seeded ${i} messages`);
+    const userChannel =
+      userChannels[faker.random.number(userChannels.length - 1)];
+    messages[i] =
+      // eslint-disable-next-line no-await-in-loop
+      await Message.create({
+        text: faker.lorem.sentence(),
+        authorId: userChannel.userId,
+        channelId: userChannel.channelId
+      });
   }
 
-  return Promise.all(promises);
+  return messages;
 }
 
 async function seed() {
@@ -105,7 +104,7 @@ async function seed() {
   console.log(`added users to ${userChannels.length} channels`);
 
   const messages = await seedMessages(userChannels);
-  console.log(`seed ${messages.length} messages`);
+  console.log(`seeded ${messages.length} messages`);
 
   console.timeEnd('seeding successful! took');
 }

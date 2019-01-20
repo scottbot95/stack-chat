@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Img from 'react-image';
 import ListItem from '@material-ui/core/ListItem';
 import Typography from '@material-ui/core/Typography';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -8,10 +9,23 @@ import Avatar from '@material-ui/core/Avatar';
 import PersonIcon from '@material-ui/icons/Person';
 
 const Message = ({ author, content, createdAt }) => {
+  const fallbackIcon = <PersonIcon />;
+
   return (
     <ListItem alignItems="flex-start">
       <ListItemAvatar>
-        {author ? <Avatar src={author.imageUrl} /> : <PersonIcon />}
+        {author ? (
+          <Avatar>
+            <Img
+              src={author.imageUrl}
+              loader={fallbackIcon}
+              unloader={fallbackIcon}
+              style={{ width: '100%', height: '100%' }}
+            />
+          </Avatar>
+        ) : (
+          fallbackIcon
+        )}
       </ListItemAvatar>
 
       <ListItemText

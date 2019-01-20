@@ -32,47 +32,40 @@ class LoginPage extends React.Component {
       <Paper className={[classes.container, classes.center].join(' ')}>
         <Card>
           <MaterialUIForm onSubmit={this.submit} className={formClass}>
-            <fieldset className={formClass}>
-              <legend>
-                <Typography variant="h6">Login</Typography>
-              </legend>
-              <Typography variant="subtitle1">
-                Enter Login Credentials
-              </Typography>
-              <TextField
-                label="Username"
-                name="username"
-                type="text"
-                value=""
-                variant="outlined"
-                data-validators="isRequired"
-                className={classes.textField}
-              />
-              <TextField
-                label="Password"
-                name="password"
-                value=""
-                type="password"
-                variant="outlined"
-                data-validators="isRequired"
-                className={classes.textField}
-              />
-              <Typography
-                color="error"
-                align="center"
-                className={classes.textField}
-              >
-                {error}
-              </Typography>
-              <Button
-                type="submit"
-                variant="contained"
-                color="primary"
-                className={classes.submit}
-              >
-                Log In
-              </Button>
-            </fieldset>
+            <Typography variant="subtitle1">Enter Login Credentials</Typography>
+            <TextField
+              label="Username"
+              name="username"
+              type="text"
+              value=""
+              variant="outlined"
+              data-validators="isRequired"
+              className={classes.textField}
+            />
+            <TextField
+              label="Password"
+              name="password"
+              value=""
+              type="password"
+              variant="outlined"
+              data-validators="isRequired"
+              className={classes.textField}
+            />
+            <Typography
+              color="error"
+              align="center"
+              className={classes.textField}
+            >
+              {error}
+            </Typography>
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+            >
+              Log In
+            </Button>
             <Link to="/signup">
               <Typography variant="caption" align="center">
                 Don't have an account? Click here to signup!

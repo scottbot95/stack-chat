@@ -1,14 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
 import ListItem from '@material-ui/core/ListItem';
 import Badge from '@material-ui/core/Badge';
 
-const ChannelListItem = ({ name, slug, unread }) => {
+const ChannelListItem = ({ name, slug, unread, selected }) => {
   return (
     <Link to={`/channel/${slug}`}>
-      <ListItem button>
+      <ListItem button selected={selected}>
         <Badge color="primary" badgeContent={unread} showZero={false} max={99}>
           <Typography>#{name}</Typography>
         </Badge>
@@ -20,11 +20,13 @@ const ChannelListItem = ({ name, slug, unread }) => {
 ChannelListItem.propTypes = {
   name: PropTypes.string.isRequired,
   slug: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-  unread: PropTypes.number
+  unread: PropTypes.number,
+  selected: PropTypes.bool
 };
 
 ChannelListItem.defaultProps = {
-  unread: 0
+  unread: 0,
+  selected: false
 };
 
-export default ChannelListItem;
+export default withRouter(ChannelListItem);

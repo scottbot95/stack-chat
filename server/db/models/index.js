@@ -15,3 +15,5 @@ Channel.belongsToMany(User, { through: UserChannel });
 UserChannel.belongsTo(Message, { as: 'last_read' });
 UserChannel.belongsTo(User);
 UserChannel.belongsTo(Channel);
+User.hasMany(UserChannel);
+Channel.hasMany(UserChannel);

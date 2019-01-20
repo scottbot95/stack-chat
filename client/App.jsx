@@ -10,7 +10,7 @@ class App extends React.Component {
   render() {
     const { classes } = this.props;
     return (
-      <div className={classes.flex}>
+      <div className={classes.flex} style={{ height: '100%' }}>
         <Sidebar />
         <div className={classes.container}>
           <NavBar />

@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import withStyles from '@material-ui/styles/withStyles';
 import Drawer from '@material-ui/core/Drawer';
@@ -28,9 +29,12 @@ class Sidebar extends React.Component {
       open,
       closeSidebar,
       isLoggedIn,
+      location,
       classes
     } = this.props;
     const drawerType = width === 'xs' ? 'temporary' : 'permanent';
+
+    const activeChannelId = Number(location.pathname.split('/').slice(-1)[0]);
 
     return (
       <React.Fragment>
@@ -46,9 +50,10 @@ class Sidebar extends React.Component {
           <List>
             {channels.map(channel => (
               <ChannelListItem
-                key={channel.channelId || channel.channel.name}
-                name={channel.channel.name}
-                slug={channel.channel.id}
+                key={channel.id || channel.name}
+                name={channel.name}
+                slug={channel.id}
+                selected={channel.id === activeChannelId}
               />
             ))}
           </List>
@@ -87,10 +92,14 @@ const mapDispatchToProps = dispatch => ({
   closeSidebar: () => dispatch(showSidebar(false))
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(withWidth()(withStyles(styles)(Sidebar)));
+export default withRouter(
+  withWidth()(
+    connect(
+      mapStateToProps,
+      mapDispatchToProps
+    )(withStyles(styles)(Sidebar))
+  )
+);
 
 Sidebar.displayName = 'Sidebar';
 

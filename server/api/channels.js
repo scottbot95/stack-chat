@@ -9,13 +9,8 @@ router.get('/', async (req, res, next) => {
   try {
     switch (req.query.mine) {
       case 'true':
-        channels = await UserChannel.findAll({
-          where: { userId: req.user.id },
-          include: [
-            {
-              model: Channel
-            }
-          ]
+        channels = await Channel.findAll({
+          include: [{ model: UserChannel, where: { userId: req.user.id } }]
         });
         break;
       case 'false':
@@ -33,20 +28,38 @@ router.get('/', async (req, res, next) => {
         });
         const channelsP = Channel.findAll();
         const [joined, allChannels] = await Promise.all([joinedP, channelsP]);
-        console.log(
-          joined.map(i => i.id),
-          '******',
-          allChannels.map(i => i.id)
-        );
         channels = allChannels.filter(
           ch => joined.find(j => j.id === ch.id) === undefined
         );
-        console.log(channels.length);
         break;
       default:
         channels = await Channel.findAll();
     }
     res.json(channels);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get('/:channelId', async (req, res, next) => {
+  try {
+    const channel = (await Channel.findById(req.params.channelId, {
+      include: User
+    })).toJSON();
+    channel.users = channel.users.reduce(
+      (obj, user) => ({
+        ...obj,
+        [user.id]: user
+      }),
+      {}
+    );
+    if (channel.users[req.user.id] === undefined) {
+      res.sendStatus(401);
+    } else if (req.query.usersOnly !== undefined) {
+      res.json({ id: req.params.channelId, users: channel.users });
+    } else {
+      res.json(channel);
+    }
   } catch (error) {
     next(error);
   }

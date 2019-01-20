@@ -1,2 +1,3 @@
 export const GET_CHANNELS = 'GET_CHANNELS';
 export const JOIN_CHANNEL = 'JOIN_CHANNEL';
+export const GET_CHANNEL_DETAILS = 'GET_CHANNEL_DETAILS';

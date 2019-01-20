@@ -6,6 +6,7 @@ import { Router } from 'react-router-dom';
 import { MuiThemeProvider } from '@material-ui/core';
 
 import App from './App';
+import ErrorBoundary from './ErrorBoundary';
 import store from './store';
 import history from './history';
 import theme from './theme';
@@ -16,13 +17,15 @@ import './socket';
 module.exports = () => {
   ReactDOM.render(
     <AppContainer>
-      <MuiThemeProvider theme={theme}>
-        <Router history={history}>
-          <Provider store={store}>
-            <App />
-          </Provider>
-        </Router>
-      </MuiThemeProvider>
+      <ErrorBoundary>
+        <MuiThemeProvider theme={theme}>
+          <Router history={history}>
+            <Provider store={store}>
+              <App />
+            </Provider>
+          </Router>
+        </MuiThemeProvider>
+      </ErrorBoundary>
     </AppContainer>,
     document.getElementById('App')
   );

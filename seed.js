@@ -74,10 +74,14 @@ async function seedMessages(userChannels) {
     if (i > 0 && i % 100 === 0) console.log(`seeded ${i} messages`);
     const userChannel =
       userChannels[faker.random.number(userChannels.length - 1)];
+
+    const numSentences =
+      i % 15 === 0 ? 10 : faker.random.number({ min: 1, max: 3 });
+
     messages[i] =
       // eslint-disable-next-line no-await-in-loop
       await Message.create({
-        text: faker.lorem.sentence(),
+        text: faker.lorem.sentences(numSentences),
         authorId: userChannel.userId,
         channelId: userChannel.channelId
       });

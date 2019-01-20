@@ -7,9 +7,12 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import PersonIcon from '@material-ui/icons/Person';
+import TimeAgo from 'react-timeago';
 
-const Message = ({ author, content, createdAt }) => {
+const Message = ({ author, content, createdAt, mine }) => {
   const fallbackIcon = <PersonIcon />;
+
+  const authorText = author && author.realName + (mine ? ' (me)' : '');
 
   return (
     <ListItem alignItems="flex-start">
@@ -29,13 +32,15 @@ const Message = ({ author, content, createdAt }) => {
       </ListItemAvatar>
 
       <ListItemText
-        primary={author && author.realName}
+        primary={authorText}
         secondary={
           <React.Fragment>
             <Typography component="span" color="textPrimary">
               {content}
             </Typography>
-            <Typography component="span">{createdAt}</Typography>
+            <Typography component="span" variant="caption">
+              <TimeAgo date={new Date(createdAt)} />
+            </Typography>
           </React.Fragment>
         }
       />

@@ -4,6 +4,7 @@ import InfiniteScroll from 'react-infinite-scroller';
 import PropTypes from 'prop-types';
 import List from '@material-ui/core/List';
 import Paper from '@material-ui/core/Paper';
+import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
 import Message from './Message';
 import { fetchMessages } from '../../store/messages/actions';
@@ -29,6 +30,7 @@ class MessageList extends React.Component {
       channelId,
       hasMore,
       loadMoreMessages,
+      myId,
       ...rest
     } = this.props;
     return (
@@ -44,11 +46,17 @@ class MessageList extends React.Component {
           {messages.length ? (
             <List {...rest}>
               {messages.map(msg => (
-                <Message
-                  key={msg.id}
-                  author={users[msg.authorId]}
-                  content={msg.text}
-                />
+                <React.Fragment>
+                  <Message
+                    key={msg.id}
+                    author={users[msg.authorId]}
+                    content={msg.text}
+                    createdAt={msg.createdAt}
+                    editedAt={msg.updatedAt !== msg.createdAt && msg.updatedAt}
+                    mine={msg.authorId === myId}
+                  />
+                  <Divider />
+                </React.Fragment>
               ))}
             </List>
           ) : (
@@ -66,7 +74,8 @@ const mapState = (state, props) => {
     : { messages: [], hasMore: true };
   return {
     messages: channel.messages,
-    hasMore: channel.hasMore
+    hasMore: channel.hasMore,
+    myId: state.user.id
   };
 };
 

@@ -9,7 +9,9 @@ module.exports = { User, Channel, Message, UserChannel };
 Message.belongsTo(User, { as: 'author' });
 Message.belongsTo(Channel);
 
-UserChannel.belongsTo(Message, { as: 'last_read' });
-
 User.belongsToMany(Channel, { through: UserChannel });
 Channel.belongsToMany(User, { through: UserChannel });
+
+UserChannel.belongsTo(Message, { as: 'last_read' });
+UserChannel.belongsTo(User);
+UserChannel.belongsTo(Channel);

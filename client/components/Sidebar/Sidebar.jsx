@@ -43,9 +43,15 @@ class Sidebar extends React.Component {
             paper: classes.drawerPaper
           }}
         >
-          {channels.map(channel => (
-            <ChannelListItem key={channel.id || channel.name} {...channel} />
-          ))}
+          <List>
+            {channels.map(channel => (
+              <ChannelListItem
+                key={channel.channelId || channel.channel.name}
+                name={channel.channel.name}
+                slug={channel.channel.id}
+              />
+            ))}
+          </List>
           <Divider />
           <List>
             {isLoggedIn && [

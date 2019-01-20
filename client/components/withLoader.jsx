@@ -2,7 +2,7 @@
 import React from 'react';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-export const withLoader = ({
+const withLoader = ({
   loader,
   dataProp = 'data',
   errorProp = 'error'
@@ -13,7 +13,6 @@ export const withLoader = ({
       data: undefined,
       error: undefined
     };
-    h;
 
     componentWillMount() {
       this.mounted = false;

@@ -53,6 +53,7 @@ const createApp = () => {
   app.use(passport.session());
 
   app.use('/auth', require('./auth'));
+  app.use('/api', require('./api'));
 
   // error handling endware
   app.use((err, req, res, next) => {

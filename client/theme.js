@@ -28,6 +28,9 @@ export const styles = createStyles({
     height: '100%'
     // padding: theme.spacing.unit
   },
+  content: {
+    padding: theme.spacing.unit * 2
+  },
   center: {
     alignItems: 'center',
     justifyContent: 'center'
@@ -53,5 +56,8 @@ export const styles = createStyles({
   },
   drawerPaper: {
     width: drawerWidth
+  },
+  dialogPaper: {
+    overflowY: 'visible!important'
   }
 });

@@ -8,10 +8,11 @@ import { styles } from './theme';
 
 class App extends React.Component {
   render() {
+    const { classes } = this.props;
     return (
-      <div className={this.props.classes.flex}>
+      <div className={classes.flex}>
         <Sidebar />
-        <div className={this.props.classes.container}>
+        <div className={classes.container}>
           <NavBar />
           <Routes />
         </div>

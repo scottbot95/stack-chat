@@ -89,7 +89,7 @@ function seedMessages(userChannels) {
 
 async function seed() {
   console.time('seeding successful! took');
-  await db.sync({ force: true });
+  await db.sync({ force: true, alter: false });
   console.log('db synced!');
   const randSeed = process.env.RAND_SEED || 123;
   faker.seed(randSeed);

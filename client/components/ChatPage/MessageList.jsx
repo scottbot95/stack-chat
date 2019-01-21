@@ -16,20 +16,38 @@ import { throttle } from '../../utils';
 class MessageList extends React.Component {
   componentDidMount() {
     this.props.loadMoreMessages(1);
+    this.scrollToBottom();
+  }
+
+  componentDidUpdate(prevProps) {
+    const prevMessages = prevProps.messages || [];
+    const currMessages = this.props.messages || [];
+    const prevLastMsg = prevMessages.slice(-1)[0] || { id: 0 };
+    const currLastMsg = currMessages.slice(-1)[0] || { id: 0 };
+
+    if (prevLastMsg.id !== currLastMsg.id) {
+      this.scrollToBottom();
+    }
   }
 
   paperRef = React.createRef();
 
+  scrollToBottom = () => {
+    this.messagesEndRef.scrollIntoView({ behavior: 'smooth' });
+  };
+
   render() {
     const {
-      users,
       messages,
-      channelId,
+      channel,
       hasMore,
       loadMoreMessages,
       myId,
       ...rest
     } = this.props;
+
+    const users = channel.users || {};
+
     return (
       <RootRef rootRef={this.paperRef}>
         <Paper style={{ flexGrow: 1, overflow: 'auto' }}>
@@ -64,6 +82,11 @@ class MessageList extends React.Component {
                 No messages in this channel
               </Typography>
             )}
+            <div
+              ref={ref => {
+                this.messagesEndRef = ref;
+              }}
+            />
           </InfiniteScroll>
         </Paper>
       </RootRef>
@@ -72,12 +95,12 @@ class MessageList extends React.Component {
 }
 
 const mapState = (state, props) => {
-  const channel = state.messages[props.channelId]
-    ? state.messages[props.channelId]
+  const channelMessages = state.messages[props.channel.id]
+    ? state.messages[props.channel.id]
     : { messages: [], hasMore: true };
   return {
-    messages: channel.messages,
-    hasMore: channel.hasMore,
+    messages: channelMessages.messages,
+    hasMore: channelMessages.hasMore,
     myId: state.user.id
   };
 };
@@ -86,7 +109,7 @@ const mapDispatch = (dispatch, props) => {
   const throttledDispatch = throttle(dispatch, 250);
   return {
     loadMoreMessages: page =>
-      throttledDispatch(fetchMessages(props.channelId, page))
+      throttledDispatch(fetchMessages(props.channel.id, page))
   };
 };
 
@@ -96,8 +119,10 @@ export default connect(
 )(MessageList);
 
 MessageList.propTypes = {
-  channelId: PropTypes.number.isRequired,
-  users: PropTypes.object.isRequired,
+  channel: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    users: PropTypes.object
+  }).isRequired,
   messages: PropTypes.arrayOf(
     PropTypes.shape({
       createdAt: PropTypes.string,

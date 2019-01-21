@@ -38,8 +38,8 @@ export default class ErrorBoundary extends React.Component {
           <Typography variant="subtitle1" color="error">
             {this.state.error.message}
           </Typography>
-          <Typography variant="body2" color="error">
-            <pre>{this.state.error.stack}</pre>
+          <Typography variant="body2" color="error" component="pre">
+            {this.state.error.stack}
           </Typography>
         </Paper>
       );

@@ -31,10 +31,7 @@ class ChatPage extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <MessageList
-          channelId={this.props.channel.id}
-          users={this.props.channel.users}
-        />
+        <MessageList channel={this.props.channel} />
         <MessageInput
           authorId={this.props.userId}
           channelId={this.props.channel.id}

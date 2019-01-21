@@ -13,11 +13,11 @@ module.exports = (io, middleware) => {
     const name = names[i];
     const handler = namespaces[name];
     const namespace = io.of(name);
-    middleware.forEach(m => namespace.use(wrapMiddleware(m)));
+    // middleware.forEach(m => namespace.use(wrapMiddleware(m)));
     handler(namespace);
   }
 
-  middleware.forEach(m => io.use(wrapMiddleware(m)));
+  // middleware.forEach(m => io.use(wrapMiddleware(m)));
 
   io.on('connection', socket => {
     console.log(`A client has connected with id: ${socket.id}`);

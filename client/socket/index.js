@@ -9,10 +9,7 @@ const url =
     ? 'http://localhost:8080'
     : pkg.homepage;
 
-const socket = io(url, {
-  forceNew: true,
-  query: `session_id=${Cookies.get('connect.sid')}`
-});
+const socket = io(url, { forceNew: true });
 export const messageSocket = messageIO(`${url}/messages`);
 
 socket.on('connect', () => {

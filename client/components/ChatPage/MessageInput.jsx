@@ -11,9 +11,11 @@ import { messageSocket } from '../../socket';
 const MessageInput = ({ classes, authorId, channelId }) => {
   const submit = event => {
     event.preventDefault();
-    const text = event.currentTarget.text.value;
-    event.currentTarget.text.value = '';
-    messageSocket.emit('new-message', { text, authorId, channelId });
+    event.persist();
+    const text = event.target.text.value;
+    messageSocket.emit('new-message', { text, authorId, channelId }, () => {
+      event.target.text.value = '';
+    });
   };
 
   return (

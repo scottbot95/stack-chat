@@ -55,7 +55,13 @@ Message.propTypes = {
   author: PropTypes.shape({
     imageUrl: PropTypes.string,
     realName: PropTypes.string
-  }).isRequired,
+  }),
   content: PropTypes.node.isRequired,
   createdAt: PropTypes.string
+};
+
+Message.defaultProps = {
+  author: {
+    realName: 'Unknown'
+  }
 };

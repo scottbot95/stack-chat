@@ -16,13 +16,6 @@ import { throttle } from '../../utils';
 class MessageList extends React.Component {
   componentDidMount() {
     this.props.loadMoreMessages(1);
-    console.log(this.paperRef);
-  }
-
-  componentDidUpdate(prevProps) {
-    if (prevProps.channelId !== this.props.channelId)
-      console.log('new channel');
-    // this.props.loadMoreMessages(1);
   }
 
   paperRef = React.createRef();

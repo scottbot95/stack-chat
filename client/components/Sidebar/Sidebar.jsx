@@ -16,6 +16,7 @@ import ChannelListItem from './ChannelListItem';
 import { showSidebar } from '../../store/window/actions';
 import JoinChannelDialog from '../JoinChannelDialog';
 import { styles } from '../../theme';
+import withLoggedIn from '../withLoggedIn';
 
 class Sidebar extends React.Component {
   state = {
@@ -83,7 +84,6 @@ class Sidebar extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  isLoggedIn: !!state.user.id,
   channels: state.channels,
   open: state.window.showSidebar
 });
@@ -93,11 +93,13 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default withRouter(
-  withWidth()(
-    connect(
-      mapStateToProps,
-      mapDispatchToProps
-    )(withStyles(styles)(Sidebar))
+  withStyles(styles)(
+    withWidth()(
+      connect(
+        mapStateToProps,
+        mapDispatchToProps
+      )(withLoggedIn(Sidebar))
+    )
   )
 );
 

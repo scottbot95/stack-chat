@@ -6,6 +6,7 @@ import { Switch, Route, withRouter } from 'react-router-dom';
 import withLoader from './components/withLoader';
 import { LoginPage, ChatPage, HomePage, SignupPage } from './components';
 import { me } from './store/user/actions';
+import withLoggedIn from './components/withLoggedIn';
 
 class Routes extends React.Component {
   componentDidUpdate() {
@@ -34,7 +35,6 @@ class Routes extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  isLoggedIn: !!state.user.id,
   windowTitle: state.window.title
 });
 
@@ -46,7 +46,11 @@ export default withRouter(
   connect(
     mapStateToProps,
     mapDispatchToProps
-  )(withLoader({ loader: props => props.loadInitialData() })(Routes))
+  )(
+    withLoader({ loader: props => props.loadInitialData() })(
+      withLoggedIn(Routes)
+    )
+  )
 );
 
 Routes.propTypes = {

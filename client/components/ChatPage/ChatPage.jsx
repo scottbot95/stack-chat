@@ -4,23 +4,29 @@ import PropTypes from 'prop-types';
 import { fetchChannelDetails } from '../../store/channels/actions';
 import { setTitle } from '../../store/window';
 import MessageList from './MessageList';
-import Loader from '../Loader';
 import MessageInput from './MessageInput';
+
+import { messageSocket } from '../../socket';
 
 class ChatPage extends React.Component {
   componentDidMount() {
-    if (this.props.channel.name)
-      this.props.setWindowTitle(this.props.channel.name);
-
-    this.props.fetchChannelDetails();
+    this.postRender();
   }
 
   componentDidUpdate() {
     if (this.props.channel.name !== this.props.currTitle) {
-      this.props.setWindowTitle(this.props.channel.name);
-      this.props.fetchChannelDetails();
+      this.postRender();
     }
   }
+
+  postRender = () => {
+    if (this.props.channel.name)
+      this.props.setWindowTitle(this.props.channel.name);
+
+    this.props.fetchChannelDetails();
+
+    messageSocket.emit('switch-channel', this.props.channel.id);
+  };
 
   render() {
     return (
@@ -29,7 +35,10 @@ class ChatPage extends React.Component {
           channelId={this.props.channel.id}
           users={this.props.channel.users}
         />
-        <MessageInput />
+        <MessageInput
+          authorId={this.props.userId}
+          channelId={this.props.channel.id}
+        />
       </React.Fragment>
     );
   }
@@ -39,7 +48,8 @@ const mapState = (state, props) => ({
   channel:
     state.channels.find(ch => ch.id === Number(props.match.params.channelId)) ||
     {},
-  currTitle: state.window.title
+  currTitle: state.window.title,
+  userId: state.user.id
 });
 
 const mapDispatch = (dispatch, props) => ({

@@ -6,9 +6,12 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
 import { theme, styles } from '../../theme';
+import { messageSocket } from '../../socket';
 
-const MessageInput = ({ classes }) => {
-  const submit = values => {};
+const MessageInput = ({ classes, authorId, channelId }) => {
+  const submit = ({ text }) => {
+    messageSocket.emit('new-message', { text, authorId, channelId });
+  };
 
   return (
     <Paper square>
@@ -18,7 +21,7 @@ const MessageInput = ({ classes }) => {
       >
         <TextField
           label="Message"
-          name="message"
+          name="text"
           type="text"
           value=""
           className={classes.grow}

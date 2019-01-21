@@ -4,9 +4,12 @@ const morgan = require('morgan');
 const passport = require('passport');
 const session = require('express-session');
 const SequelizeSession = require('connect-session-sequelize')(session.Store);
+const passportSocketIo = require('passport.socketio');
 const socketio = require('socket.io');
 
 const db = require('./db');
+
+if (process.env.NODE_ENV === 'development') require('../secrets');
 
 const User = db.models.user;
 
@@ -28,6 +31,8 @@ passport.deserializeUser(async (id, done) => {
   }
 });
 
+let sessionMiddleware = [];
+
 const createApp = () => {
   // loggin middleware
   app.use(morgan('dev'));
@@ -37,20 +42,39 @@ const createApp = () => {
   app.use(express.urlencoded({ extended: false }));
 
   // session middleware with passport
-  app.use(
+  sessionMiddleware = [
     session({
-      secret:
-        process.env.SESSION_SECRET || 'nobody will ever guess this, right?',
+      secret: process.env.SESSION_SECRET,
       store: sessionStore,
       resave: false,
       saveUninitialized: false,
       cookie: {
         maxAge: 1000 * 60 * 60 * 24 * 7
       }
-    })
-  );
-  app.use(passport.initialize());
-  app.use(passport.session());
+    }),
+    passport.initialize(),
+    passport.session()
+  ];
+
+  sessionMiddleware.forEach(m => app.use(m));
+
+  // sessionMiddleware = [
+  //   passportSocketIo.authorize({
+  //     key: 'connect.sid',
+  //     secret: process.env.SESSION_SECRET,
+  //     store: sessionStore,
+  //     passport,
+  //     success: (data, accept) => {
+  //       console.log(data);
+  //       accept();
+  //     },
+  //     fail: (data, msg, error, accept) => {
+  //       console.error(msg);
+  //       if (error) console.error(error);
+  //     }
+  //   })
+  // ];
+  sessionMiddleware = [];
 
   app.use('/auth', require('./auth'));
   app.use('/api', require('./api'));
@@ -73,7 +97,7 @@ const startListening = () => {
 
   const io = socketio(server);
   // eslint-disable-next-line global-require
-  require('./sockets')(io);
+  require('./sockets')(io, sessionMiddleware);
 };
 
 const dbSync = () => db.sync();

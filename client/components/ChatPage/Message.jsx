@@ -39,7 +39,7 @@ const Message = ({ author, content, createdAt, mine }) => {
               {content}
             </Typography>
             <Typography component="span" variant="caption">
-              <TimeAgo date={new Date(createdAt)} />
+              <TimeAgo date={new Date(createdAt)} minPeriod={60} />
             </Typography>
           </React.Fragment>
         }

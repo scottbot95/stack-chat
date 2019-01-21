@@ -55,7 +55,7 @@ export const me = () => async dispatch => {
   try {
     const res = await axios.get('/auth/me');
     dispatch(getUser(res.data || defaultUser));
-    if (res.data) dispatch(fetchChannelList());
+    if (res.data) return dispatch(fetchChannelList());
   } catch (error) {
     console.error(error);
   }

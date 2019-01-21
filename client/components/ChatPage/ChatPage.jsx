@@ -5,6 +5,7 @@ import { fetchChannelDetails } from '../../store/channels/actions';
 import { setTitle } from '../../store/window';
 import MessageList from './MessageList';
 import Loader from '../Loader';
+import MessageInput from './MessageInput';
 
 class ChatPage extends React.Component {
   componentDidMount() {
@@ -23,12 +24,13 @@ class ChatPage extends React.Component {
 
   render() {
     return (
-      <Loader isLoading={!this.props.channel.users}>
+      <React.Fragment>
         <MessageList
           channelId={this.props.channel.id}
           users={this.props.channel.users}
         />
-      </Loader>
+        <MessageInput />
+      </React.Fragment>
     );
   }
 }

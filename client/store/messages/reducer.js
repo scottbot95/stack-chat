@@ -1,7 +1,8 @@
-import initialState from './initialState';
+import initialState, { defaultMessages } from './initialState';
 import { ADD_NEW_MESSAGES, ADD_OLD_MESSAGES, SET_MESSAGES } from './constants';
 
 export default (state = initialState, action) => {
+  const oldMessages = state[action.channelId] || defaultMessages;
   switch (action.type) {
     case SET_MESSAGES:
       return { ...state, [action.channelId]: action.messages };
@@ -9,11 +10,8 @@ export default (state = initialState, action) => {
       return {
         ...state,
         [action.channelId]: {
-          ...state[action.channelId],
-          messages: [
-            ...action.data.messages,
-            ...state[action.channelId].messages
-          ],
+          ...oldMessages,
+          messages: [...action.data.messages, ...oldMessages.messages],
           hasMore: action.data.hasMore
         }
       };
@@ -21,8 +19,8 @@ export default (state = initialState, action) => {
       return {
         ...state,
         [action.channelId]: {
-          ...state[action.channelId],
-          messages: [...state[action.channelId].messages, ...action.messages]
+          ...oldMessages,
+          messages: [...oldMessages.messages, ...action.messages]
         }
       };
     default:

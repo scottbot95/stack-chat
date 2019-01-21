@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import InfiniteScroll from 'react-infinite-scroller';
 import PropTypes from 'prop-types';
+import RootRef from '@material-ui/core/RootRef';
 import List from '@material-ui/core/List';
 import Paper from '@material-ui/core/Paper';
 import Divider from '@material-ui/core/Divider';
@@ -15,6 +16,7 @@ import { throttle } from '../../utils';
 class MessageList extends React.Component {
   componentDidMount() {
     this.props.loadMoreMessages(1);
+    console.log(this.paperRef);
   }
 
   componentDidUpdate(prevProps) {
@@ -22,6 +24,8 @@ class MessageList extends React.Component {
       console.log('new channel');
     // this.props.loadMoreMessages(1);
   }
+
+  paperRef = React.createRef();
 
   render() {
     const {
@@ -34,36 +38,42 @@ class MessageList extends React.Component {
       ...rest
     } = this.props;
     return (
-      <Paper style={{ flexGrow: 1, overflow: 'auto' }}>
-        <InfiniteScroll
-          pageStart={0}
-          loadMore={loadMoreMessages}
-          loader={<LoadingSpinner key={0} />}
-          hasMore={hasMore}
-          useWindow={false}
-          isReverse
-        >
-          {messages.length ? (
-            <List {...rest}>
-              {messages.map(msg => (
-                <React.Fragment>
-                  <Message
-                    key={msg.id}
-                    author={users[msg.authorId]}
-                    content={msg.text}
-                    createdAt={msg.createdAt}
-                    editedAt={msg.updatedAt !== msg.createdAt && msg.updatedAt}
-                    mine={msg.authorId === myId}
-                  />
-                  <Divider />
-                </React.Fragment>
-              ))}
-            </List>
-          ) : (
-            <Typography align="center">No messages in this channel</Typography>
-          )}
-        </InfiniteScroll>
-      </Paper>
+      <RootRef rootRef={this.paperRef}>
+        <Paper style={{ flexGrow: 1, overflow: 'auto' }}>
+          <InfiniteScroll
+            pageStart={0}
+            loadMore={loadMoreMessages}
+            loader={<LoadingSpinner key={0} />}
+            hasMore={hasMore}
+            useWindow={false}
+            getScrollParent={() => this.paperRef.current}
+            isReverse
+          >
+            {messages.length ? (
+              <List {...rest}>
+                {messages.map(msg => (
+                  <React.Fragment key={msg.id}>
+                    <Message
+                      author={users[msg.authorId]}
+                      content={msg.text}
+                      createdAt={msg.createdAt}
+                      editedAt={
+                        msg.updatedAt !== msg.createdAt && msg.updatedAt
+                      }
+                      mine={msg.authorId === myId}
+                    />
+                    <Divider />
+                  </React.Fragment>
+                ))}
+              </List>
+            ) : (
+              <Typography align="center">
+                No messages in this channel
+              </Typography>
+            )}
+          </InfiniteScroll>
+        </Paper>
+      </RootRef>
     );
   }
 }

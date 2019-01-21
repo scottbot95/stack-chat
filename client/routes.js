@@ -15,18 +15,19 @@ class Routes extends React.Component {
   render() {
     const { isLoggedIn } = this.props;
 
-    if (isLoggedIn) {
-      return (
-        <Switch>
-          <Route path="/channel/:channelId" component={ChatPage} />
-          <Route path="/" component={HomePage} />
-        </Switch>
-      );
-    }
+    const loggedInRoutes = [
+      <Route path="/channel/:channelId" component={ChatPage} key="/ch" />,
+      <Route path="/" component={HomePage} key="/" />
+    ];
+    const loggedOutRoutes = [
+      <Route exact path="/signup" component={SignupPage} key="/signup" />,
+      <Route exact path="/" component={LoginPage} key="/" />
+    ];
+    const commonRoutes = [];
     return (
       <Switch>
-        <Route exact path="/signup" component={SignupPage} />
-        <Route exact path="/" component={LoginPage} />
+        {isLoggedIn ? loggedInRoutes : loggedOutRoutes}
+        {commonRoutes}
       </Switch>
     );
   }

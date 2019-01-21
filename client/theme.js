@@ -41,6 +41,9 @@ export const styles = createStyles({
     padding: theme.spacing.unit * 2,
     boxSizing: 'border-box'
   },
+  padding: {
+    padding: theme.spacing.unit * 3
+  },
   grow: {
     flexGrow: 1
   },

@@ -9,13 +9,16 @@ import { theme, styles } from '../../theme';
 import { messageSocket } from '../../socket';
 
 const MessageInput = ({ classes, authorId, channelId }) => {
-  const submit = ({ text }) => {
+  const submit = event => {
+    event.preventDefault();
+    const text = event.currentTarget.text.value;
+    event.currentTarget.text.value = '';
     messageSocket.emit('new-message', { text, authorId, channelId });
   };
 
   return (
     <Paper square>
-      <MaterialUIForm
+      <form
         onSubmit={submit}
         className={[classes.flex, classes.padding].join(' ')}
       >
@@ -23,7 +26,6 @@ const MessageInput = ({ classes, authorId, channelId }) => {
           label="Message"
           name="text"
           type="text"
-          value=""
           className={classes.grow}
         />
         <Button
@@ -34,7 +36,7 @@ const MessageInput = ({ classes, authorId, channelId }) => {
         >
           Send
         </Button>
-      </MaterialUIForm>
+      </form>
     </Paper>
   );
 };

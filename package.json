@@ -16,7 +16,8 @@
     "package": "electron-forge package",
     "make": "electron-forge make",
     "publish": "electron-forge publish",
-    "lint": "eslint --cache --color --ext .jsx,.js client"
+    "lint": "eslint --cache --color --ext .jsx,.js client",
+    "heroku-postbuild": "npm run seed"
   },
   "keywords": [],
   "author": "scott",

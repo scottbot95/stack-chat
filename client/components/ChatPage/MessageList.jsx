@@ -11,6 +11,8 @@ import Message from './Message';
 import { fetchMessages } from '../../store/messages/actions';
 import LoadingSpinner from '../LoadingSpinner';
 
+import { theme } from '../../theme';
+
 import { throttle } from '../../utils';
 
 class MessageList extends React.Component {
@@ -50,7 +52,13 @@ class MessageList extends React.Component {
 
     return (
       <RootRef rootRef={this.paperRef}>
-        <Paper style={{ flexGrow: 1, overflow: 'auto' }}>
+        <Paper
+          style={{
+            flexGrow: 1,
+            overflow: 'auto',
+            backgroundColor: theme.palette.background.default
+          }}
+        >
           <InfiniteScroll
             pageStart={0}
             loadMore={loadMoreMessages}

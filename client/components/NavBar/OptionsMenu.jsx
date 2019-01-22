@@ -69,7 +69,7 @@ class OptionsMenu extends React.Component {
           onClose={this.handleClose}
         >
           {renderMenuItems(commonOptions)}
-          <Divider />
+          {/* <Divider /> */}
           {renderMenuItems(isLoggedIn ? loggedInOptions : loggedOutOptions)}
         </Menu>
       </React.Fragment>

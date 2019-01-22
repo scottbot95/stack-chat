@@ -19,7 +19,7 @@ const MessageInput = ({ classes, authorId, channelId }) => {
   };
 
   return (
-    <Paper square>
+    <Paper square classes={{ root: classes.messageInputPaper }}>
       <form
         onSubmit={submit}
         className={[classes.flex, classes.padding].join(' ')}

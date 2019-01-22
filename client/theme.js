@@ -5,7 +5,13 @@ import purple from '@material-ui/core/colors/purple';
 export const theme = createMuiTheme({
   palette: {
     primary: {
-      main: purple[500]
+      main: '#8860D0'
+    },
+    secondary: {
+      main: '#5680E9'
+    },
+    background: {
+      default: '#C1C8E4'
     }
   },
   typography: {
@@ -25,7 +31,8 @@ export const styles = createStyles({
     display: 'flex',
     flexDirection: 'column',
     width: '100%',
-    height: '100%'
+    height: '100%',
+    backgroundColor: `${theme.palette.background.default}!important`
     // padding: theme.spacing.unit
   },
   background: {},
@@ -61,9 +68,13 @@ export const styles = createStyles({
     flexShrink: 0
   },
   drawerPaper: {
-    width: drawerWidth
+    width: drawerWidth,
+    backgroundColor: `${theme.palette.secondary.main}!important`
   },
   dialogPaper: {
     overflowY: 'visible!important'
+  },
+  messageInputPaper: {
+    backgroundColor: `#5AB9EA!important`
   }
 });

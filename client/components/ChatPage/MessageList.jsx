@@ -59,6 +59,7 @@ class MessageList extends React.Component {
             useWindow={false}
             getScrollParent={() => this.paperRef.current}
             isReverse
+            key={channel.id}
           >
             {messages.length ? (
               <List {...rest}>

@@ -54,6 +54,7 @@ class Sidebar extends React.Component {
                 key={channel.id || channel.name}
                 name={channel.name}
                 slug={channel.id}
+                onClick={closeSidebar}
                 selected={channel.id === activeChannelId}
               />
             ))}
@@ -76,7 +77,10 @@ class Sidebar extends React.Component {
         </Drawer>
         <JoinChannelDialog
           open={this.state.open}
-          onClose={() => this.setState({ open: false })}
+          onClose={() => {
+            this.setState({ open: false });
+            closeSidebar();
+          }}
         />
       </React.Fragment>
     );

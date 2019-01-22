@@ -5,10 +5,10 @@ import Typography from '@material-ui/core/Typography';
 import ListItem from '@material-ui/core/ListItem';
 import Badge from '@material-ui/core/Badge';
 
-const ChannelListItem = ({ name, slug, unread, selected }) => {
+const ChannelListItem = ({ name, slug, unread, selected, onClick }) => {
   return (
     <Link to={`/channel/${slug}`}>
-      <ListItem button selected={selected}>
+      <ListItem button selected={selected} onClick={onClick}>
         <Badge color="primary" badgeContent={unread} showZero={false} max={99}>
           <Typography>#{name}</Typography>
         </Badge>

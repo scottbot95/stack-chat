@@ -1,5 +1,6 @@
 import { GET_CHANNELS, JOIN_CHANNEL, GET_CHANNEL_DETAILS } from './constants';
 import axios from '../axios';
+import history from '../../history';
 
 export const getChannels = channels => ({
   type: GET_CHANNELS,
@@ -44,6 +45,7 @@ export const joinChannel = channelId => async dispatch => {
   try {
     const channel = await axios.put(`/api/channels/join/${channelId}`);
     dispatch(addJoinedChannel(channel.data));
+    history.push(`/channel/${channelId}`);
   } catch (error) {
     console.error(error);
   }
@@ -53,6 +55,7 @@ export const createChannel = name => async dispatch => {
   try {
     const channel = await axios.post('/api/channels', { name });
     dispatch(addJoinedChannel(channel.data));
+    history.push(`/channel/${channel.data.id}`);
   } catch (error) {
     console.error(error);
   }

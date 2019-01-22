@@ -3,13 +3,11 @@ import { connect } from 'react-redux';
 import CreateableSelect from 'react-select/lib/Creatable';
 import PropTypes from 'prop-types';
 import withStyles from '@material-ui/styles/withStyles';
-import form from 'react-material-ui-form';
 import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
 import Button from '@material-ui/core/Button';
 import Loader from './Loader';
-import axios from '../store/axios';
 import { styles } from '../theme';
 import {
   joinChannel,
@@ -46,7 +44,7 @@ class JoinChannelDialog extends React.Component {
     const submit = async evt => {
       evt.preventDefault();
       const channelId = evt.target.channelId.value;
-      if (channels.find(ch => ch.id === Number(channelId))) {
+      if (channels.find(ch => ch.value === Number(channelId))) {
         await attemptJoinChannel(evt.target.channelId.value);
       } else {
         await createAndJoinChannel(channelId);

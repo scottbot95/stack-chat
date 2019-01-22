@@ -71,9 +71,8 @@ router.put('/join/:channelId', async (req, res, next) => {
       userId: req.user.id,
       channelId: req.params.channelId
     });
-    const userChannel = await UserChannel.findOne({
-      where: { channelId: req.params.channelId, userId: req.user.id },
-      include: Channel
+    const userChannel = await Channel.findByPk(req.params.channelId, {
+      include: { model: UserChannel, where: { userId: req.user.id } }
     });
     res.status(201).json(userChannel);
   } catch (error) {
@@ -82,5 +81,28 @@ router.put('/join/:channelId', async (req, res, next) => {
     } else {
       next(error);
     }
+  }
+});
+
+router.post('/', async (req, res, next) => {
+  console.log(req.body);
+  try {
+    const channel = await Channel.create(
+      {
+        ...req.body,
+        user_channels: [
+          {
+            userId: req.user.id
+          }
+        ]
+      },
+      {
+        include: [UserChannel]
+      }
+    );
+
+    res.json(channel);
+  } catch (error) {
+    next(error);
   }
 });

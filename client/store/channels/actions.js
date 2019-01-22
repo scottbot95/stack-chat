@@ -16,10 +16,11 @@ export const getChannelDetails = channel => ({
   channel
 });
 
-export const fetchChannelList = () => async dispatch => {
+export const fetchChannelList = (mine = true) => async dispatch => {
   try {
-    const channels = await axios.get('/api/channels/?mine=true');
-    dispatch(getChannels(channels.data));
+    const res = await axios.get('/api/channels/', { params: { mine } });
+    if (mine) dispatch(getChannels(res.data));
+    return res.data;
   } catch (error) {
     console.error(error);
   }
@@ -42,6 +43,15 @@ export const fetchChannelDetails = (
 export const joinChannel = channelId => async dispatch => {
   try {
     const channel = await axios.put(`/api/channels/join/${channelId}`);
+    dispatch(addJoinedChannel(channel.data));
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const createChannel = name => async dispatch => {
+  try {
+    const channel = await axios.post('/api/channels', { name });
     dispatch(addJoinedChannel(channel.data));
   } catch (error) {
     console.error(error);

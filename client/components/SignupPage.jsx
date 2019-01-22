@@ -13,79 +13,30 @@ import { withStyles } from '@material-ui/styles';
 import { signup } from '../store/user/actions';
 import { setTitle } from '../store/window/actions';
 import { styles, theme } from '../theme';
+import UserInfoForm from './UserInfoForm';
 
 class SignupPage extends React.Component {
   componentDidMount() {
     this.props.setWindowTitle('Account Creation');
   }
 
+  state = { error: undefined };
+
   submit = values => {
     if (values.password === values.password2) {
       this.props.signup(values);
+    } else {
+      this.setState({ error: "Passwords don't match" });
     }
   };
 
   render() {
     const { error, classes } = this.props;
 
-    const formClass = [classes.form, classes.container].join(' ');
-
     return (
       <Paper className={[classes.container, classes.center].join(' ')}>
         <Card>
-          <MaterialUIForm onSubmit={this.submit} className={formClass}>
-            <Typography variant="subtitle1">Enter Account Details</Typography>
-            <TextField
-              label="Username"
-              name="username"
-              type="text"
-              value=""
-              variant="outlined"
-              data-validator="isRequired"
-              className={classes.textField}
-            />
-            <TextField
-              label="Real Name"
-              name="realName"
-              type="text"
-              value=""
-              variant="outlined"
-              className={classes.textField}
-            />
-            <TextField
-              label="Password"
-              name="password"
-              type="password"
-              value=""
-              variant="outlined"
-              data-validator="isRequired"
-              className={classes.textField}
-            />
-            <TextField
-              label="Password (confirm)"
-              name="password2"
-              type="password"
-              value=""
-              variant="outlined"
-              data-validator="isRequired"
-              className={classes.textField}
-            />
-            <Typography
-              color="error"
-              align="center"
-              className={classes.textField}
-            >
-              {error}
-            </Typography>
-            <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-              className={classes.submit}
-            >
-              Sign Up
-            </Button>
-          </MaterialUIForm>
+          <UserInfoForm error={error} onSubmit={this.submit} />
           <Typography align="center" variant="caption">
             Already have an account?
             <Link to="/" style={{ padding: theme.spacing.unit }}>

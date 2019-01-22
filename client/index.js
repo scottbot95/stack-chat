@@ -40,7 +40,7 @@ const createWindow = async () => {
   mainWindow.loadURL(`file://${__dirname}/index.html`);
 
   // Open the DevTools.
-  if (isDevMode) {
+  if (isDevMode && process.env.NODE_ENV === 'development') {
     await installExtension([REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS]);
     mainWindow.webContents.openDevTools();
   }
